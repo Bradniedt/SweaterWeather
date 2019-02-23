@@ -42,7 +42,7 @@ group :development, :test do
   gem 'webmock'
   gem 'shoulda-matchers'
   gem 'vcr'
-  gem 'simplecov'
+  gem 'simplecov', require: false
 end
 
 group :development do
