@@ -44,6 +44,8 @@ VCR.configure do |c|
   c.allow_http_connections_when_no_cassette = true
   c.configure_rspec_metadata!
   c.filter_sensitive_data("<GEOCODE_KEY>") { ENV['GEOCODE_KEY'] }
+  c.filter_sensitive_data("<DARKSKY_KEY>") { ENV['GEOCODE_KEY'] }
+  c.filter_sensitive_data("<FLICKR_KEY>") { ENV['GEOCODE_KEY'] }
 end
 
 RSpec.configure do |config|

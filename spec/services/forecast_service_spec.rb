@@ -8,7 +8,7 @@ describe 'Forecast service' do
     expect(@service).to be_an_instance_of(ForecastService)
   end
   it 'returns weather data when given coordinates' do
-    VCR.use_cassette("forecast") do
+    VCR.use_cassette("forecast_service") do
       data = @service.get_forecast("37.8267,-122.4233")
 
       expect(data).to have_key("latitude")
