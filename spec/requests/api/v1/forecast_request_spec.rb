@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'GET /api/v1/forecast?location=denver,co' do
+describe 'Forecast API' do
   it 'should return JSON data for a forecast' do
     get  '/api/v1/forecast?location=denver,co'
 
