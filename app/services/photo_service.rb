@@ -10,7 +10,7 @@ class PhotoService
       request.params['method'] = "flickr.photos.getRecent"
       request.params['api_key'] = ENV['FLICKR_KEY']
       request.params['format'] = "json"
-      request.params['tags'] = "parks"
+      request.params['tags'] = "parks,outdoors"
       request.params['lat'] = lat
       request.params['lon'] = lon
       request.params['nojsoncallback'] = "true"
@@ -19,8 +19,9 @@ class PhotoService
     results = JSON.parse(response.body)
   end
 
-  def build_url(data)
-    "https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg"
+  def build_url(info)
+    data = info["photos"]["photo"].shuffle.pop
+    "https://farm#{data["farm"]}.staticflickr.com/#{data["server"]}/#{data["id"]}_#{data["secret"]}.jpg"
   end
 
   def get_photo(location)
