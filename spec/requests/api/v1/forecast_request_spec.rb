@@ -5,7 +5,7 @@ describe 'Forecast API' do
     VCR.use_cassette('forecast') do
       get  '/api/v1/forecast?location=denver,co'
 
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body)["data"]["attributes"]
       expect(response).to be_successful
       expect(data).to have_key("id")
       expect(data).to have_key("timezone")
