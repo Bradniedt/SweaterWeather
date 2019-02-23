@@ -9,9 +9,10 @@ describe 'Forecast service' do
   end
   it 'returns photo url when given coordinates' do
     VCR.use_cassette("photo") do
-      data = @service.get_photo("37.8267", "-122.4233")
-
-      expect(data).to have_key("url")
+      data = @service.get_photo("Denver, CO")
+      
+      expect(data).to have_key("photos")
+      expect(data["photos"]).to have_key("photo")
     end
   end
 end
