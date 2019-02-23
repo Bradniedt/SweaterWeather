@@ -6,6 +6,12 @@ class Forecast
     @current = data["currently"]
     @daily = data["daily"]
     @hourly = data["hourly"]
-    @photo = PhotoService.new.get_photo(data["latitude"], data["longitude"])
+    pic = PhotoService.new.get_photo(data["latitude"], data["longitude"])
+    @photo = pic
+  end
+
+  def self.get_weather(lat, lon)
+    results = ForecastService.new.get_forecast(lat, lon)
+    new(results)
   end
 end
