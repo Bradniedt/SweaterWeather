@@ -8,7 +8,5 @@ class ForecastService
   def get_forecast(coords)
     response = conn.get("forecast/#{ENV['DARKSKY_KEY']}/#{coords}")
     results = JSON.parse(response.body)
-    binding.pry
   end
-
 end
