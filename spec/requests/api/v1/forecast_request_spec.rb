@@ -7,10 +7,10 @@ describe 'Forecast API' do
 
       data = JSON.parse(response.body)
       expect(response).to be_successful
-      expect(data).to have_key("latitude")
-      expect(data).to have_key("longitude")
+      expect(data).to have_key("id")
       expect(data).to have_key("timezone")
       expect(data).to have_key("currently")
+      expect(data).to have_key("daily")
       expect(data).to have_key("hourly")
     end
   end
