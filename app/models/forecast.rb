@@ -3,13 +3,13 @@ class Forecast
   def initialize(data)
     @id = 1
     @timezone = data["timezone"]
-    @current = data["currently"]
+    @currently = data["currently"]
     @daily = data["daily"]
     @hourly = data["hourly"]
   end
 
-  def self.get_weather(lat, lon)
-    results = ForecastService.new.get_forecast(lat, lon)
+  def self.get_weather(coords)
+    results = ForecastService.new.get_forecast(coords)
     new(results)
   end
 end
