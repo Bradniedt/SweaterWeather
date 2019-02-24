@@ -13,7 +13,7 @@ describe '(Login Endpoint) as a user' do
       expect(response).to be_successful
       expect(data).to have_key("api_key")
       expect(data["api_key"].length).to eq(24)
-      expect(data["api_key"].length).to eq(@key)
+      expect(data["api_key"]).to eq(@key)
     end
   end
 end
