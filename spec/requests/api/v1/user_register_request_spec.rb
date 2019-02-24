@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe '(Registration Endpoint) as a new user' do
   describe 'as a new user, when I send a post request to /api/v1/users with an email, password, and password confirmation' do
-    before { post '/api/v1/users', params: { :user => { "email" => "bob@email.com", "password" => "pass", "password_confirmation" => "pass"} }}
+    before { post '/api/v1/users', params: { "email" => "bob@email.com", "password" => "pass", "password_confirmation" => "pass"} }
     it 'should create a new user in the database and return my api key in a JSON response' do
 
       data = JSON.parse(response.body)["data"]["attributes"]
