@@ -1,7 +1,7 @@
 class Giforecast
   attr_reader :time, :summary, :url
   def initialize(data)
-    @time = data[0]
+    @time = data[0].to_s
     @summary = data[1]
     @url = data[2]
   end
