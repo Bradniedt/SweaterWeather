@@ -1,17 +1,19 @@
 class Giforecast
-  def initialize(weather_data, gif_data)
+  def initialize
     @id = 1
-    @time = weather_data["daily"]["date"]  #placeholder keys
-    @summary = weather_data["daily"]["summary"]
-    @url = gif_data["daily"]["summary"]
+    @time = weather_data  #placeholder keys
+    @summary = weather_data
+    @url = gif_data
   end
 
-  def get_weather_gifs(location)
+  def self.get_weather_gifs(location)
     coords = GeocodeService.new.get_coords(location)
-    weather = ForecastService.new.get_forecast(coords)
+    coordinates = "#{coords["lat"]},#{coords["lng"]}"
+    weather = ForecastService.new.get_forecast(coordinates)
     summaries = weather["daily"].map do |daily|
-      daily["summary"].split(' ')
-    end
+      daily["summary"]
+    end 
+    binding.pry
     daily_gifs = GifService.new.get_gifs()
   end
 end
