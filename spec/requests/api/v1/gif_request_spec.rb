@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe '(Gif Endpoint) As a user' do
   describe 'when I send a GET request to /api/v1/gifs?location=denver,co' do
-    it 'should return an hourly forecast with the time, weather summary, and a gif url' do
+    it 'should return a daily forecast with the time, weather summary, and a gif url' do
       # VCR.use_cassette('gif_forecast') do
         get  '/api/v1/gifs?location=denver,co'
 
