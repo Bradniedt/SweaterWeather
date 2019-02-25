@@ -10,10 +10,13 @@ class Giforecast
     coords = GeocodeService.new.get_coords(location)
     coordinates = "#{coords["lat"]},#{coords["lng"]}"
     weather = ForecastService.new.get_forecast(coordinates)
-    summaries = weather["daily"].map do |daily|
-      daily["summary"]
-    end 
+    summaries = weather["daily"]["data"].map do |daily|
+      [daily["time"], daily["summary"]]
+    end
+    summaries.map do |summary|
+      gif = GifService.new.get_gif(summary[1])
+      summary << gif
+    end
     binding.pry
-    daily_gifs = GifService.new.get_gifs()
   end
 end
