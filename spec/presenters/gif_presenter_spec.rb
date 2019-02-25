@@ -12,6 +12,7 @@ describe 'Gif Presenter' do
   end
   it 'has_attributes' do
     expect(@presenter.id).to eq(1)
+    expect(@presenter.copyright).to eq("2019")
     expect(@presenter.images).to be_an_instance_of Array
     expect(@presenter.images.first).to be_an_instance_of Giforecast
   end
