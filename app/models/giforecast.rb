@@ -8,14 +8,7 @@ class Giforecast
 
   def self.build_summaries(data)
     summaries = data["daily"]["data"].map do |daily|
-      [daily["time"], daily["summary"]]
-    end
-  end
-
-  def self.build_gifs(data)
-    data.map do |summary|
-      gif = GifService.new.get_gif(data[1])
-      data << gif
+      [daily["time"], daily["summary"], GifService.new.get_gif(daily["summary"])]
     end
   end
 
@@ -24,9 +17,7 @@ class Giforecast
     coordinates = "#{coords["lat"]},#{coords["lng"]}"
     weather = ForecastService.new.get_forecast(coordinates)
     summaries = build_summaries(weather)
-    binding.pry
-    summaries_with_gifs = build_gifs(summaries)
-    summaries_with_gifs.map do |summary|
+    summaries.map do |summary|
       Giforecast.new(summary)
     end
   end
