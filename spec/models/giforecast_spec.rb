@@ -11,7 +11,7 @@ describe Giforecast, type: :model do
     expect(@forecast).to be_an_instance_of(Giforecast)
   end
   it 'has_attributes' do
-    expect(@forecast.time).to eq(@data[0])
+    expect(@forecast.time).to eq(@data[0].to_s)
     expect(@forecast.summary).to eq(@data[1])
     expect(@forecast.url).to eq(@data[2])
   end
