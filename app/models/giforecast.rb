@@ -1,9 +1,10 @@
 class Giforecast
-  def initialize
+  attr_reader :id, :time, :summary, :url
+  def initialize(data)
     @id = 1
-    @time = weather_data  #placeholder keys
-    @summary = weather_data
-    @url = gif_data
+    @time = data[0]
+    @summary = data[1]
+    @url = data[2]
   end
 
   def self.get_weather_gifs(location)
@@ -17,6 +18,8 @@ class Giforecast
       gif = GifService.new.get_gif(summary[1])
       summary << gif
     end
-    binding.pry
+    summaries.map do |summary|
+      Giforecast.new(summary)
+    end
   end
 end
