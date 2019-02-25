@@ -11,7 +11,7 @@ describe 'Gif service' do
     VCR.use_cassette("gif_service") do
       data = @service.get_gif("Partly cloudy")
 
-      expect(data.slice(0, 3)).to eq("http")
+      expect(data.slice(0, 4)).to eq("http")
     end
   end
 end
