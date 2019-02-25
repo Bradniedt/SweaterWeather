@@ -12,16 +12,21 @@ class Giforecast
     end
   end
 
+  def self.build_gifs(data)
+    data.map do |summary|
+      gif = GifService.new.get_gif(data[1])
+      data << gif
+    end
+  end
+
   def self.get_weather_gifs(location)
     coords = GeocodeService.new.get_coords(location)
     coordinates = "#{coords["lat"]},#{coords["lng"]}"
     weather = ForecastService.new.get_forecast(coordinates)
     summaries = build_summaries(weather)
-    summaries.map do |summary|
-      gif = GifService.new.get_gif(summary[1])
-      summary << gif
-    end
-    summaries.map do |summary|
+    binding.pry
+    summaries_with_gifs = build_gifs(summaries)
+    summaries_with_gifs.map do |summary|
       Giforecast.new(summary)
     end
   end
