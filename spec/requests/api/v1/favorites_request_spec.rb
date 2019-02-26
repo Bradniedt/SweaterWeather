@@ -35,16 +35,18 @@ describe '(Favorites Endpoint) As a user' do
       get '/api/v1/favorites', params: { "api_key" => "#{@key1}" }
     end
     it 'should list all of my favorite locations with their current weather' do
-      user = User.find(@user1.id)
-      favorite = user.favorites.first
-      data = JSON.parse(response.body)["data"]["attributes"]
+      # VCR.use_cassette('favorite_list') do
+        user = User.find(@user1.id)
+        favorite = user.favorites.first
+        data = JSON.parse(response.body)["data"]["attributes"]
 
-      expect(response).to be_successful
-      expect(favorite.user_id).to eq(user.id)
-      expect(favorite.location).to eq("Denver, CO")
-      expect(data["favorites"].first).to have_key("location")
-      expect(data["favorites"].first["location"]).to eq("Denver, CO")
-      expect(data["favorites"].first).to have_key("current_weather")
+        expect(response).to be_successful
+        expect(favorite.user_id).to eq(user.id)
+        expect(favorite.location).to eq("Denver, CO")
+        expect(data["favorites"].first).to have_key("location")
+        expect(data["favorites"].first["location"]).to eq("Denver, CO")
+        expect(data["favorites"].first).to have_key("current_weather")
+      # end 
     end
   end
 end
