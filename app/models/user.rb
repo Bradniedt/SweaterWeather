@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   def create_favorite(location)
     coords = GeocodeService.new.get_coords(location)
-    weather = Forecast.new.get_forecast("#{coords["lat"]},#{coords["lng"]}")
+    weather = ForecastService.new.get_forecast("#{coords["lat"]},#{coords["lng"]}")
     self.favorites.create!(location: location, current_weather: weather["currently"])
     binding.pry
   end
