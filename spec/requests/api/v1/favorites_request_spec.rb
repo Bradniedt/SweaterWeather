@@ -66,6 +66,7 @@ describe '(Favorites Endpoint) As a user' do
       @user5.favorites.create(location: "Dillon, CO")
       @key6 = SecureRandom.base64
       @user6 = User.create!(email: "jane@email.com", password: "pass", api_key: @key6)
+      @user6.favorites.create(location: "Denver, CO")
     end
     it 'should delete the specified favorite location and return it to me' do
       VCR.use_cassette('favorites_delete') do
@@ -77,7 +78,7 @@ describe '(Favorites Endpoint) As a user' do
 
         expect(response).to be_successful
         expect(favorites.length).to eq(1)
-        expect(favorite.first.location).to eq("Denver, CO")
+        expect(favorites.first.location).to eq("Denver, CO")
         expect(data["favorites"].first).to have_key("location")
         expect(data["favorites"].first["location"]).to eq("Dillon, CO")
         expect(data["favorites"].first).to have_key("current_weather")
@@ -85,13 +86,13 @@ describe '(Favorites Endpoint) As a user' do
     end
     it 'should return a 401 if my api key is wrong' do
       delete '/api/v1/favorites', params: { "api_key" => "#{@bad_key}", "location" => "Denver, CO" }
-
+      user = User.find(@user6.id)
       favorites = user.favorites.all
-      
+
       expect(response).to_not be_successful
       expect(status).to eq(401)
       expect(favorites.length).to eq(1)
-      expect(favorite.first.location).to eq("Denver, CO")
+      expect(favorites.first.location).to eq("Denver, CO")
     end
   end
 end
