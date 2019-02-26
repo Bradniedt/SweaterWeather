@@ -29,14 +29,14 @@ describe '(Favorites Endpoint) As a user' do
   end
   describe 'when I send a GET request with my api key to /api/v1/favorites' do
     before do
-      @key1 = SecureRandom.base64
-      @user1 = User.create!(email: "bob@email.com", password: "pass", api_key: @key1)
-      post '/api/v1/favorites', params: { "api_key" => "#{@key1}", "location" => "Denver, CO" }
-      get '/api/v1/favorites', params: { "api_key" => "#{@key1}" }
+      @key3 = SecureRandom.base64
+      @user3 = User.create!(email: "jill@email.com", password: "pass", api_key: @key3)
+      @user3.favorites.create(location: "Denver, CO")
+      get '/api/v1/favorites', params: { "api_key" => "#{@key3}" }
     end
     it 'should list all of my favorite locations with their current weather' do
-      VCR.use_cassette('favorite_list') do
-        user = User.find(@user1.id)
+      VCR.use_cassette('favorites_list') do
+        user = User.find(@user3.id)
         favorite = user.favorites.first
         data = JSON.parse(response.body)["data"]["attributes"]
 
@@ -46,7 +46,7 @@ describe '(Favorites Endpoint) As a user' do
         expect(data["favorites"].first).to have_key("location")
         expect(data["favorites"].first["location"]).to eq("Denver, CO")
         expect(data["favorites"].first).to have_key("current_weather")
-      end 
+      end
     end
   end
 end
