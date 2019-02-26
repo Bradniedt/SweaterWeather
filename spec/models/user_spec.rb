@@ -11,18 +11,14 @@ describe User, type: :model do
   end
   describe 'instance methods' do
     it 'create_favorite' do
-      VCR.use_cassette('favorite_user_model') do
-        key = SecureRandom.base64
-        user = User.create!(email: "bob@email.com", password: "pass", api_key: key)
-        user.create_favorite("Denver, CO")
-        favorite = user.favorites.first
+      key = SecureRandom.base64
+      user = User.create!(email: "bob@email.com", password: "pass", api_key: key)
+      user.create_favorite("Denver, CO")
+      favorite = user.favorites.first
+      binding.pry
 
-        expect(favorite.user_id).to eq(user.id)
-        expect(favorite.location).to eq("Denver, CO")
-        expect(favorite.current_weather).to have_key("time")
-        expect(favorite.current_weather).to have_key("summary")
-        expect(favorite.current_weather).to have_key("temperature")
-      end
+      expect(favorite.user_id).to eq(user.id)
+      expect(favorite.location).to eq("Denver, CO")
     end
   end
 end
