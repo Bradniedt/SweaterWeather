@@ -6,6 +6,10 @@ describe 'Favorite Presenter' do
     @user = User.create!(email: "jill@email.com", password: "pass", api_key: @key)
     @user.favorites.create(location: "Denver, CO")
     @user.favorites.create(location: "Dillon, CO")
+    @key2 = SecureRandom.base64
+    @user2 = User.create!(email: "jane@email.com", password: "pass", api_key: @key2)
+    @user2.favorites.create(location: "Denver, CO")
+    @user2.favorites.create(location: "Dillon, CO")
   end
   it 'exists' do
     faves = @user.favorites
@@ -22,12 +26,12 @@ describe 'Favorite Presenter' do
     expect(presenter.favorites.first["location"]).to eq("Denver, CO")
   end
   it 'delete_favorite' do
-    fave = @user.favorites.first
+    fave = @user2.favorites.first
     presenter = FavoritePresenter.new(fave, "delete")
-    all_faves = Favorite.all
+    all_faves = User.find(@user2.id).favorites
     expect(presenter.id).to eq(1)
-    expect(presenter.favorites).to be_an_instance_of Array
     expect(presenter.favorites.first).to have_key("location")
-    expect(all_faves.length).to eq(2)
+    expect(presenter.favorites.first["location"]).to eq("Denver, CO")
+    expect(all_faves.length).to eq(1)
   end
 end
