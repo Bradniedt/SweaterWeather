@@ -9,16 +9,4 @@ describe User, type: :model do
     it { should validate_uniqueness_of(:api_key)}
     it { should have_many(:favorites)}
   end
-  describe 'instance methods' do
-    it 'create_favorite' do
-      key = SecureRandom.base64
-      user = User.create!(email: "bob@email.com", password: "pass", api_key: key)
-      user.create_favorite("Denver, CO")
-      favorite = user.favorites.first
-      binding.pry
-
-      expect(favorite.user_id).to eq(user.id)
-      expect(favorite.location).to eq("Denver, CO")
-    end
-  end
 end
