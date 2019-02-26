@@ -23,7 +23,7 @@ describe Forecast, type: :model do
   describe 'class methods' do
     it 'get_weather' do
       VCR.use_cassette('forecast_model') do
-        forecast = Forecast.get_weather("37.8267,-122.4233")
+        forecast = Forecast.get_weather("Denver, CO")
         expect(forecast).to be_an_instance_of(Forecast)
       end
     end

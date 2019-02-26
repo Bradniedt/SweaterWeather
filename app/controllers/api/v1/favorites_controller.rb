@@ -7,4 +7,15 @@ class Api::V1::FavoritesController < ApplicationController
       render json: {}, status: 401
     end
   end
+
+  def index
+    user = User.find_by(api_key: params["api_key"])
+    if user && !user.favorites.empty?
+      favorites = FavoritePresenter.new(user.favorites)
+      render json: FavoriteSerializer.new(favorites)
+    else
+      render json: {}, status: 401
+    end
+  end
+
 end

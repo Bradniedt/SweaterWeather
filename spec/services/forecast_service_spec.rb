@@ -9,7 +9,7 @@ describe 'Forecast service' do
   end
   it 'returns weather data when given coordinates' do
     VCR.use_cassette("forecast_service") do
-      data = @service.get_forecast("37.8267,-122.4233")
+      data = @service.get_forecast("Denver, CO")
 
       expect(data).to have_key("latitude")
       expect(data).to have_key("longitude")

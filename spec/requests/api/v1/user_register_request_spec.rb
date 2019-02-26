@@ -7,6 +7,7 @@ describe '(Registration Endpoint) as a new user' do
 
       data = JSON.parse(response.body)["data"]["attributes"]
       user = User.last
+      expect(status).to eq(201)
       expect(user.email).to eq("bob@email.com")
       expect(user.api_key).to eq(data["api_key"])
       expect(response).to be_successful

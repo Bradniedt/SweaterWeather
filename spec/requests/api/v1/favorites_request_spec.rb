@@ -27,4 +27,35 @@ describe '(Favorites Endpoint) As a user' do
       expect(user.favorites).to eq([])
     end
   end
+  describe 'when I send a GET request with my api key to /api/v1/favorites' do
+    before :each do
+      @key3 = SecureRandom.base64
+      @user3 = User.create!(email: "jill@email.com", password: "pass", api_key: @key3)
+      @user3.favorites.create(location: "Denver, CO")
+      @key4 = SecureRandom.base64
+      @user4 = User.create!(email: "jane@email.com", password: "pass", api_key: @key4)
+    end
+    it 'should list all of my favorite locations with their current weather' do
+      VCR.use_cassette('favorites_list') do
+        get '/api/v1/favorites', params: { "api_key" => "#{@key3}" }
+
+        user = User.find(@user3.id)
+        favorite = user.favorites.first
+        data = JSON.parse(response.body)["data"]["attributes"]
+
+        expect(response).to be_successful
+        expect(favorite.user_id).to eq(user.id)
+        expect(favorite.location).to eq("Denver, CO")
+        expect(data["favorites"].first).to have_key("location")
+        expect(data["favorites"].first["location"]).to eq("Denver, CO")
+        expect(data["favorites"].first).to have_key("current_weather")
+      end
+    end
+    it 'should return a 401 if my api key is wrong' do
+      get '/api/v1/favorites', params: { "api_key" => "#{@bad_key}" }
+
+      expect(response).to_not be_successful
+      expect(status).to eq(401)
+    end
+  end
 end

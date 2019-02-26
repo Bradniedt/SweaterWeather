@@ -13,9 +13,7 @@ class Giforecast
   end
 
   def self.get_weather_gifs(location)
-    coords = GeocodeService.new.get_coords(location)
-    coordinates = "#{coords["lat"]},#{coords["lng"]}"
-    weather = ForecastService.new.get_forecast(coordinates)
+    weather = ForecastService.new.get_forecast(location)
     summaries = build_summaries(weather)
     summaries.map do |summary|
       Giforecast.new(summary)
