@@ -13,7 +13,7 @@ describe User, type: :model do
     it 'create_favorite' do
       VCR.use_cassette('favorite_user_model') do
         key = SecureRandom.base64
-        user = User.create!(email: "bob@email.com", password: "pass", api_key: @key)
+        user = User.create!(email: "bob@email.com", password: "pass", api_key: key)
         user.create_favorite("Denver, CO")
         favorite = user.favorites.first
 
