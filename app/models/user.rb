@@ -6,10 +6,4 @@ class User < ApplicationRecord
   has_many :favorites
 
   has_secure_password
-
-  def create_favorite(location)
-    coords = GeocodeService.new.get_coords(location)
-    weather = ForecastService.new.get_forecast("#{coords["lat"]},#{coords["lng"]}")["currently"]
-    self.favorites.create(location: location, current_weather: weather)
-  end
 end
