@@ -3,6 +3,8 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
   validates_uniqueness_of :api_key
 
+  has_many :favorites
+
   has_secure_password
 
   def create_favorite(location)
