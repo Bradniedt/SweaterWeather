@@ -58,4 +58,40 @@ describe '(Favorites Endpoint) As a user' do
       expect(status).to eq(401)
     end
   end
+  describe 'when I send a DELETE request with a location and my api key to /api/v1/favorites' do
+    before :each do
+      @key5 = SecureRandom.base64
+      @user5 = User.create!(email: "jill@email.com", password: "pass", api_key: @key5)
+      @user5.favorites.create(location: "Denver, CO")
+      @user5.favorites.create(location: "Dillon, CO")
+      @key6 = SecureRandom.base64
+      @user6 = User.create!(email: "jane@email.com", password: "pass", api_key: @key6)
+    end
+    it 'should delete the specified favorite location and return it to me' do
+      VCR.use_cassette('favorites_delete') do
+        delete '/api/v1/favorites', params: { "api_key" => "#{@key5}", "location" => "Dillon, CO" }
+
+        user = User.find(@user5.id)
+        favorites = user.favorites.all
+        data = JSON.parse(response.body)["data"]["attributes"]
+
+        expect(response).to be_successful
+        expect(favorites.length).to eq(1)
+        expect(favorite.first.location).to eq("Denver, CO")
+        expect(data["favorites"].first).to have_key("location")
+        expect(data["favorites"].first["location"]).to eq("Dillon, CO")
+        expect(data["favorites"].first).to have_key("current_weather")
+      end
+    end
+    it 'should return a 401 if my api key is wrong' do
+      delete '/api/v1/favorites', params: { "api_key" => "#{@bad_key}", "location" => "Denver, CO" }
+
+      favorites = user.favorites.all
+      
+      expect(response).to_not be_successful
+      expect(status).to eq(401)
+      expect(favorites.length).to eq(1)
+      expect(favorite.first.location).to eq("Denver, CO")
+    end
+  end
 end
