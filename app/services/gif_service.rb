@@ -15,6 +15,6 @@ class GifService
 
   def get_gif(terms)
     response = get_url("v1/gifs/search", terms)
-    result = JSON.parse(response.body)["data"].shuffle.first["url"]
+    result = JSON.parse(response.body)["data"][0]["images"]["downsized"]["url"]
   end
 end
