@@ -9,12 +9,14 @@ class GifService
     response = conn.get("v1/gifs/search") do |request|
       request.params["api_key"] = ENV['GIPHY_KEY']
       request.params["q"] = search_terms
-      request.params["limit"] = 5
+      request.params["limit"] = 10
     end
   end
 
   def get_gif(terms)
     response = get_url("v1/gifs/search", terms)
-    result = JSON.parse(response.body)["data"][0]["images"]["downsized"]["url"]
+    nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    nums.shuffle!
+    result = JSON.parse(response.body)["data"][nums.pop]["images"]["downsized"]["url"]
   end
 end
