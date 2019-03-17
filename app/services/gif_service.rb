@@ -6,9 +6,10 @@ class GifService
   end
 
   def get_url(url, search_terms)
+    new_terms = search_terms.gsub(" ", "+")
     response = conn.get("v1/gifs/search") do |request|
       request.params["api_key"] = ENV['GIPHY_KEY']
-      request.params["q"] = search_terms
+      request.params["q"] = new_terms
       request.params["limit"] = 10
     end
   end
