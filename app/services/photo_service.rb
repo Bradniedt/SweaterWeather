@@ -10,7 +10,7 @@ class PhotoService
       request.params['method'] = "flickr.photos.getRecent"
       request.params['api_key'] = ENV['FLICKR_KEY']
       request.params['format'] = "json"
-      request.params['tags'] = "parks,outdoors"
+      request.params['tags'] = "parks,outdoors,nature,skyline"
       request.params['lat'] = lat
       request.params['lon'] = lon
       request.params['nojsoncallback'] = "true"
